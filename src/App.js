@@ -1,9 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import { Button, Navbar, Container, Nav} from 'react-bootstrap';
-
+import data from './data';
+import { useState } from 'react';
 
 function App() {
+
+  let [shoes] = useState(data)
+
   return (
     <div className="App">
       <Navbar bg="light" variant="light">
@@ -18,24 +22,10 @@ function App() {
       </Navbar>
 
       <div className='main-bg'></div>
-
+      
       <div className='container'>
         <div className='row'>
-          <div className='col'>
-            <img src='https://codingapple1.github.io/shop/shoes1.jpg' width='80%'/>
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </div>
-          <div className='col'>
-            <img src='https://codingapple1.github.io/shop/shoes2.jpg'width='80%'/>
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </div>
-          <div className='col'>
-            <img src='https://codingapple1.github.io/shop/shoes3.jpg'width='80%'/>
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </div>
+          <Product shoes={shoes}/>
         </div>
       </div>
 
@@ -43,4 +33,17 @@ function App() {
   );
 }
 
+function Product(props) {
+  return(
+    props.shoes.map(function(a, i){
+      return(
+      <div className='col'>
+        <img src= {'https://codingapple1.github.io/shop/shoes'+ (i + 1) +'.jpg'} width='80%'/>
+        <h4>{a.title}</h4>
+        <p>{a.price}</p>
+      </div>  
+      )
+    })          
+  )
+}
 export default App;
