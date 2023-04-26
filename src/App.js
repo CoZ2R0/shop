@@ -5,11 +5,13 @@ import data from './data';
 import { useState } from 'react';
 import { Route, Routes, Link, useNavigate, Outlet, } from 'react-router-dom';
 import Detail from './pages/Detail';
+import axios from 'axios';
 
 function App() {
 
-  let [shoes] = useState(data)
+  let [shoes, setShoes] = useState(data)
   let navigate = useNavigate();
+  let [btnCnt, setBtnCnt] = useState(1)
 
   return (
     <div className="App">
@@ -35,6 +37,20 @@ function App() {
                 <Product shoes={shoes}/>
               </div>
             </div>
+            { btnCnt >= 3 ? null :
+              <button onClick={()=> {
+              setBtnCnt(btnCnt+1)
+              axios.get('https://codingapple1.github.io/shop/data' + (btnCnt + 1) + '.json')
+              .then((result)=>{ 
+                // console.log(result.data)
+                setShoes([...shoes, ...result.data])
+                console.log(shoes)
+              })
+              .catch(()=>{ 
+                console.log('실ㅍ') 
+                console.log(btnCnt)
+              })
+            }}>버튼</button>}
           </div>
           }/>
         <Route path='/detail/:id' element={<Detail shoes={shoes}/>}/>
@@ -61,7 +77,7 @@ function Product(props) {
   return(
     props.shoes.map(function(a, i){
       return(
-      <div className='col'>
+      <div className='col-md-4'>
         <img src= {'https://codingapple1.github.io/shop/shoes'+ (i + 1) +'.jpg'} width='80%'/>
         <h4>{a.title}</h4>
         <p>{a.price}</p>
