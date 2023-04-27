@@ -2,16 +2,19 @@ import logo from './logo.svg';
 import './App.css';
 import { Button, Navbar, Container, Nav} from 'react-bootstrap';
 import data from './data';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { Route, Routes, Link, useNavigate, Outlet, } from 'react-router-dom';
 import Detail from './pages/Detail';
 import axios from 'axios';
+
+export let Context1 = createContext()
 
 function App() {
 
   let [shoes, setShoes] = useState(data)
   let navigate = useNavigate();
   let [btnCnt, setBtnCnt] = useState(1)
+  let [stock] = useState([10, 11, 12])
 
   return (
     <div className="App">
@@ -53,7 +56,11 @@ function App() {
             }}>버튼</button>}
           </div>
           }/>
-        <Route path='/detail/:id' element={<Detail shoes={shoes}/>}/>
+        <Route path='/detail/:id' element={
+          <Context1.Provider value={{stock, shoes}}>
+            <Detail shoes={shoes}/>
+          </Context1.Provider>
+        }/>
         <Route path='*' element={<h1>없는 페이지입니다</h1>}/>
         <Route path='/about' element={<About/>}>
           <Route path='member' element={<div>회사원소개</div>}/>

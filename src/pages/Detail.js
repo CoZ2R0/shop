@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Nav from 'react-bootstrap/Nav';
 
+import { Context1 } from "../App";
 
 // let Btn = styled.button`
 //   background : ${ props => props.bg };
@@ -17,6 +18,9 @@ import Nav from 'react-bootstrap/Nav';
 // `
 
 function Detail(props) {
+
+  let a = useContext(Context1)
+  console.log(a)
 
   let {id} = useParams();
   let product;
@@ -70,13 +74,14 @@ function Detail(props) {
           <Nav.Link onClick={()=>{ setTab(2) }} eventKey="link2">버튼3</Nav.Link>
         </Nav.Item>
       </Nav>
-      <TabContent tab={tab}/>
+      <TabContent tab={tab} shoes={props.shoes}/>
     </div>
   )
 }
 
-function TabContent({tab}){
+function TabContent({tab, shoes}){
   let [fade, setFade] = useState('')
+  let {stock} = useContext(Context1)
 
   useEffect(()=>{
     let a = setTimeout(()=>{ setFade('end') }, 10)
@@ -87,7 +92,7 @@ function TabContent({tab}){
   }, [tab])
 
   return ( <div className={'start ' + fade}>
-    { [<div>내용0이다</div>, <div>내용1이다</div>, <div>내용2이다</div>][tab] }
+    { [<div>{shoes[0].title}</div>, <div>{shoes[0].content}</div>, <div>{stock[0]}</div>][tab] }
   </div> )
   // if(tab == 0){
   //   return <div>내용0이다</div>
