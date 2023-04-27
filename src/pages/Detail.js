@@ -23,11 +23,15 @@ function Detail(props) {
   let [alert, setAlert] = useState(true) 
   let [text, setText] = useState('')
   let [tab, setTab] = useState(0)
+  let [page, setPage] = useState('')
 
   useEffect(()=>{
     let a = setTimeout(()=>{ setAlert(false) }, 2000)
+    let b = setTimeout(()=>{ setPage('end') }, 10)
     return()=>{
       clearTimeout(a)
+      clearTimeout(b)
+      setPage('')
     }
   }, [])
 
@@ -37,7 +41,7 @@ function Detail(props) {
   })
 
   return(
-    <div className="container">
+    <div className={"container start " + page}>
       {/* <Box><Btn bg='lightPink'>유메쟈나이</Btn></Box>
       <CopyBtn>복붙한 버튼</CopyBtn> */}
       { alert == true ?  <div className="alert alert-warning">2초이내 구매시 할인</div> : null } 
@@ -72,6 +76,19 @@ function Detail(props) {
 }
 
 function TabContent({tab}){
+  let [fade, setFade] = useState('')
+
+  useEffect(()=>{
+    let a = setTimeout(()=>{ setFade('end') }, 10)
+    return () => {
+      clearTimeout(a)
+      setFade('')
+    }
+  }, [tab])
+
+  return ( <div className={'start ' + fade}>
+    { [<div>내용0이다</div>, <div>내용1이다</div>, <div>내용2이다</div>][tab] }
+  </div> )
   // if(tab == 0){
   //   return <div>내용0이다</div>
   // } else if(tab == 1){
@@ -79,7 +96,7 @@ function TabContent({tab}){
   // }else if(tab == 2){
   //   return <div>내용2이다</div>
   // }
-  return [<div>내용0이다</div>, <div>내용1이다</div>, <div>내용2이다</div>][tab]
+
 }
 
   export default Detail;
