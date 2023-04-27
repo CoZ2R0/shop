@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Nav from 'react-bootstrap/Nav';
+
 
 // let Btn = styled.button`
 //   background : ${ props => props.bg };
@@ -20,6 +22,7 @@ function Detail(props) {
   let product;
   let [alert, setAlert] = useState(true) 
   let [text, setText] = useState('')
+  let [tab, setTab] = useState(0)
 
   useEffect(()=>{
     let a = setTimeout(()=>{ setAlert(false) }, 2000)
@@ -51,8 +54,32 @@ function Detail(props) {
           <button className="btn btn-danger">주문하기</button> 
         </div>
       </div>
+
+      <Nav variant="tabs" defaultActiveKey="link0">
+        <Nav.Item>
+          <Nav.Link onClick={()=>{ setTab(0) }} eventKey="link0">버튼0</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link onClick={()=>{ setTab(1) }} eventKey="link1">버튼1</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link onClick={()=>{ setTab(2) }} eventKey="link2">버튼3</Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tab={tab}/>
     </div>
   )
+}
+
+function TabContent({tab}){
+  // if(tab == 0){
+  //   return <div>내용0이다</div>
+  // } else if(tab == 1){
+  //   return <div>내용1이다</div>
+  // }else if(tab == 2){
+  //   return <div>내용2이다</div>
+  // }
+  return [<div>내용0이다</div>, <div>내용1이다</div>, <div>내용2이다</div>][tab]
 }
 
   export default Detail;
