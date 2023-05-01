@@ -6,6 +6,7 @@ import { createContext, useState } from 'react';
 import { Route, Routes, Link, useNavigate, Outlet, } from 'react-router-dom';
 import Detail from './pages/Detail';
 import axios from 'axios';
+import Cart from './pages/Cart';
 
 export let Context1 = createContext()
 
@@ -26,6 +27,7 @@ function App() {
             <Nav.Link onClick={() => { navigate('/')}}>Home</Nav.Link>
             <Nav.Link onClick={() => { navigate('/detail')}}>Shop</Nav.Link>
             <Nav.Link href="#pricing">Magazine</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/cart')}}>cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -37,7 +39,7 @@ function App() {
             <div className='main-bg'></div>
             <div className='container'>
               <div className='row'>
-                <Product shoes={shoes}/>
+                <Product shoes={shoes} navigate={navigate}/>
               </div>
             </div>
             { btnCnt >= 3 ? null :
@@ -61,6 +63,9 @@ function App() {
             <Detail shoes={shoes}/>
           </Context1.Provider>
         }/>
+
+        <Route path='/cart' element={<Cart/>}/>
+
         <Route path='*' element={<h1>없는 페이지입니다</h1>}/>
         <Route path='/about' element={<About/>}>
           <Route path='member' element={<div>회사원소개</div>}/>
@@ -80,12 +85,15 @@ function About() {
   )
 }
 
-function Product(props) {
+function Product({shoes, navigate}) {
   return(
-    props.shoes.map(function(a, i){
+    shoes.map(function(a, i){
       return(
       <div className='col-md-4'>
-        <img src= {'https://codingapple1.github.io/shop/shoes'+ (i + 1) +'.jpg'} width='80%'/>
+        <img src= {'https://codingapple1.github.io/shop/shoes'+ (i + 1) +'.jpg'} width='80%' 
+        onClick={()=>{
+          navigate('/detail/' + (a.id))
+        }}/>
         <h4>{a.title}</h4>
         <p>{a.price}</p>
       </div>  

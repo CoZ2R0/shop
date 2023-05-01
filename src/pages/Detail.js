@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Nav from 'react-bootstrap/Nav';
 
 import { Context1 } from "../App";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../store.js"
 
 // let Btn = styled.button`
 //   background : ${ props => props.bg };
@@ -19,6 +21,7 @@ import { Context1 } from "../App";
 
 function Detail(props) {
 
+  let dispatch = useDispatch()
   let a = useContext(Context1)
   console.log(a)
 
@@ -59,7 +62,7 @@ function Detail(props) {
           <h4 className="pt-5">{props.shoes[product].title}</h4>
           <p>{props.shoes[product].content}</p>
           <p>{props.shoes[product].price}원</p>
-          <button className="btn btn-danger">주문하기</button> 
+          <button className="btn btn-danger" onClick={()=>{dispatch(addProduct(props.shoes[product]))}}>주문하기</button> 
         </div>
       </div>
 
