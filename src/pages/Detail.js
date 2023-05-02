@@ -21,9 +21,18 @@ import { addProduct } from "../store.js"
 
 function Detail(props) {
 
+  useEffect(()=>{
+    let watched = JSON.parse(localStorage.getItem("watched"))
+    watched.unshift(product)
+    // new Set을 선언해서 watched를 넣고 한 번 벗겨서 중복을 제거해줌과 동시에 array로 담아주겠다!
+    watched = [...new Set(watched)]
+    localStorage.setItem("watched", JSON.stringify(watched))
+    // console.log(JSON.parse(JSON.stringify(watched)))
+  }, [Detail])
+
   let dispatch = useDispatch()
   let a = useContext(Context1)
-  console.log(a)
+  // console.log(a)
 
   let {id} = useParams();
   let product;

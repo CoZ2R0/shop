@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import { Button, Navbar, Container, Nav} from 'react-bootstrap';
+import { Button, Navbar, Container, Nav, Offcanvas } from 'react-bootstrap';
 import data from './data';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Route, Routes, Link, useNavigate, Outlet, } from 'react-router-dom';
 import Detail from './pages/Detail';
 import axios from 'axios';
@@ -11,6 +11,15 @@ import Cart from './pages/Cart';
 export let Context1 = createContext()
 
 function App() {
+
+  // let obj = {name : 'kim'}
+  // localStorage.setItem('data', JSON.stringify(obj))
+  // let out = localStorage.getItem('data')
+  // console.log(JSON.parse(out).name)
+
+  useEffect(()=>{
+    localStorage.setItem("watched", JSON.stringify([]))
+  },[])
 
   let [shoes, setShoes] = useState(data)
   let navigate = useNavigate();
@@ -32,7 +41,6 @@ function App() {
         </Container>
       </Navbar>
       
-
       <Routes>
         <Route path='/' element={
           <div>
