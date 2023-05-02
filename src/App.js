@@ -7,6 +7,7 @@ import { Route, Routes, Link, useNavigate, Outlet, } from 'react-router-dom';
 import Detail from './pages/Detail';
 import axios from 'axios';
 import Cart from './pages/Cart';
+import { useQuery } from 'react-query';
 
 export let Context1 = createContext()
 
@@ -26,6 +27,14 @@ function App() {
   let [btnCnt, setBtnCnt] = useState(1)
   let [stock] = useState([10, 11, 12])
 
+  let result = useQuery('작명', ()=>
+    axios.get('https://codingapple1.github.io/userdata.json').then((a)=>{
+      console.log('요청됨')
+      return a.data}), 
+    { staleTime : 2000 }
+  )
+  console.log(result)
+
   return (
     <div className="App">
 
@@ -37,6 +46,12 @@ function App() {
             <Nav.Link onClick={() => { navigate('/detail')}}>Shop</Nav.Link>
             <Nav.Link href="#pricing">Magazine</Nav.Link>
             <Nav.Link onClick={() => { navigate('/cart')}}>cart</Nav.Link>
+          </Nav>
+          <Nav className='ms-auto'>
+            {/* { result.isLoading ? '로딩중' : result.data.name } */}
+            { result.isLoading && '로딩중' }
+            { result.error && '에러남' }
+            { result.data && result.data.name }
           </Nav>
         </Container>
       </Navbar>
